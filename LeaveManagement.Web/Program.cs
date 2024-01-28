@@ -1,6 +1,8 @@
 using LeaveManagement.Web.Data;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using LeaveManagement.Web.Configurations;
 
 namespace LeaveManagement.Web
 {
@@ -18,6 +20,9 @@ namespace LeaveManagement.Web
 
             builder.Services.AddDefaultIdentity<Employee>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            builder.Services.AddAutoMapper(typeof(MapperConfig));
+
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
