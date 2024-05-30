@@ -17,14 +17,14 @@ namespace LeaveManagement.Web.Repositories
         private readonly UserManager<Employee> userManager;
         private readonly ILeaveTypeRepository leaveTypeRepository;
         private readonly AutoMapper.IConfigurationProvider configurationProvider;
-        private readonly EmailSender emailSender;
+        private readonly IEmailSender emailSender;
         private readonly IMapper mapper;
 
         public LeaveAllocationRepository(ApplicationDbContext context, 
             UserManager<Employee> userManager, 
             ILeaveTypeRepository leaveTypeRepository,
             AutoMapper.IConfigurationProvider configurationProvider,
-            EmailSender emailSender,
+            IEmailSender emailSender,
             IMapper mapper) : base(context)
         {
             this.context = context;
