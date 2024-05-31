@@ -1,7 +1,7 @@
-﻿using LeaveManagement.Web.Constants;
-using LeaveManagement.Web.Contracts;
-using LeaveManagement.Web.Data;
-using LeaveManagement.Web.Models;
+﻿using LeaveManagement.Common.Constants;
+using LeaveManagement.Data;
+using LeaveManagement.Application.Contracts;
+using LeaveManagement.Common.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,11 +14,14 @@ namespace LeaveManagement.Web.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly ILeaveRequestRepository leaveRepository;
+        private readonly ILogger<LeaveRequestsController> logger;
 
-        public LeaveRequestsController(ApplicationDbContext context, ILeaveRequestRepository leaveRepository)
+        public LeaveRequestsController(ApplicationDbContext context, ILeaveRequestRepository leaveRepository,
+            ILogger<LeaveRequestsController> logger)
         {
             _context = context;
             this.leaveRepository = leaveRepository;
+            this.logger = logger;
         }
 
         [Authorize(Roles = Roles.Administrator)]
@@ -57,6 +60,7 @@ namespace LeaveManagement.Web.Controllers
             }
             catch(Exception ex)
             {
+                logger.LogError(ex, "Error Approving Leave Request");
                 throw;
             }
             return RedirectToAction(nameof(Index));
@@ -82,6 +86,7 @@ namespace LeaveManagement.Web.Controllers
             }
             catch(Exception ex)
             {
+                logger.LogError(ex, "Error Cancelling Leave Request");
                 throw;
             }
 
@@ -109,6 +114,7 @@ namespace LeaveManagement.Web.Controllers
             }
             catch(Exception ex)
             {
+                logger.LogError(ex, "Error Creating Leave Request");
                 ModelState.AddModelError(string.Empty, "An error has occured. Try again Later.");
             }
 
